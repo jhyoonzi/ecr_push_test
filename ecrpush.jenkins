@@ -1,0 +1,26 @@
+app = docker.build("815808428537.dkr.ecr.ap-northeast-2.amazonaws.com/sensiltf-test")
+
+
+docker.withRegistry('815808428537.dkr.ecr.ap-northeast-2.amazonaws.com','ecr:ap-northeast-2:AWSCredentials')
+
+
+node {
+    stage('clone repository') {
+        checkout scm
+    }
+
+    stage('Build Image') {
+        app = docker.build("815808428537.dkr.ecr.ap-northeast-2.amazonaws.com/sensiltf-test")
+    }
+
+    stage('Push image') {
+        sh 'rm  ~/.dockercfg || true'
+        sh 'rm ~/.docker/config.json || true'
+
+        docker.withRegistry('815808428537.dkr.ecr.ap-northeast-2.amazonaws.com','ecr:ap-northeast-2:AWSCredentials') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
+        }
+    } 
+}
+

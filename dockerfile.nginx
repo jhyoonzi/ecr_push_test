@@ -1,0 +1,16 @@
+FROM nginx:latest
+
+#set nginx config
+COPY /config/index.html /usr/share/nginx/html
+COPY /config/proxy.conf /etc/nginx/conf.d
+
+#run gradle server
+
+ENTRYPOINT [ "/bin/bash", "/home/www/VITA_SERVER/core/runGateway.sh" ]
+
+# Open HTTP port for nginx
+WORKDIR /etc/nginx
+
+CMD ["nginx", "-g", "daemon off;"]
+
+EXPOSE 80

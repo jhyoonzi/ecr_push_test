@@ -1,0 +1,8 @@
+FROM ubuntu:alpine
+
+# install openjdk
+RUN apt-get update
+RUN apt-get install -y openjdk-8-jdk
+
+# Complete install
+RUN echo "JDK 1.8 install completed"
